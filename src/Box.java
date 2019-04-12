@@ -15,10 +15,6 @@ public class Box {
 		return this.cards.size();
 	}
 	
-	public int getLocation() {
-		return this.index;
-	}
-	
 	public void printCards() {
 		for (int i = 0; i < cards.size(); i++) {
 			System.out.println(cards.get(i));

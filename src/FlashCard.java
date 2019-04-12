@@ -31,6 +31,4 @@ public class FlashCard {
 			return this.back;
 		}
 	}
-	
-	
 }
