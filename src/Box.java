@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Box {
+public class Box implements Serializable {
 
 	private ArrayList<FlashCard> cards;
 	private int index;
