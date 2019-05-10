@@ -1,7 +1,7 @@
 # flashcard-app
 
 #TO-DO:
-  ~~* Implement Serialization <br /> ~~
+  * <del>Implement Serialization </del> <br /> 
   * Refine Aesthetic <br /> 
       * Maybe Include a Background Image <br /> 
       * Better Button Styles
