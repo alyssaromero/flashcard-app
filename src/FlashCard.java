@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.util.Random;
 
-public class FlashCard implements Serializable {
+public class FlashCard {
 		private String front;
 		private String back;
 	

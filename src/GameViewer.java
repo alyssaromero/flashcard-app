@@ -21,9 +21,9 @@ import javax.swing.table.DefaultTableModel;
 
 public class GameViewer {
 	
-	private static Box chosenBox; //does not need to be saved
-	private static FlashCard chosenCard; //does not need to be saved
-	private static String chosenSide; //does not need to be saved
+	private static Box chosenBox; 
+	private static FlashCard chosenCard; 
+	private static String chosenSide; 
 
 	public static void drawMainScreen(Game thisgame) {
 		JFrame mainframe = new JFrame("FLASHCARD APPLICATION");
