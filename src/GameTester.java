@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/* 
+ * @author Alyssa Romero 2019 
+ */
+
 public class GameTester {
 	
 	private static Game game;
@@ -21,8 +25,6 @@ public class GameTester {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
 			game = (Game)ois.readObject();
 			System.out.println("File Already Exists...Loading File");
-			System.out.println(game.getCardset());
-			System.out.println(game.getAppColor());
 			ois.close();
 		} catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());

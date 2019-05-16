@@ -1,7 +1,12 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Box {
+/* 
+ * @author Alyssa Romero 2019 
+ */
+
+public class Box implements Serializable {
 
 	private ArrayList<FlashCard> cards;
 	private int index;
@@ -9,10 +14,6 @@ public class Box {
 	public Box(int index) {
 		this.cards = new ArrayList<FlashCard>();
 		this.index = index;
-	}
-
-	public int getIndex() {
-		return this.index;
 	}
 	
 	public int getSize() {

@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -23,6 +24,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+/* 
+ * @author Alyssa Romero 2019 
+ */
+
 public class Game implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -31,7 +36,29 @@ public class Game implements Serializable {
 	private ArrayList<FlashCard> cardset = new ArrayList<FlashCard>(); 
 	private Color appColor = new Color(153, 204, 255); 
 	
+	private HashMap<String, String[]> vocabulary = new HashMap<String, String[]>();
+	private String language;
+	
+	//VOCABULARY FOR VARIOUS LANGUAGES//
+	private transient String[] english = {
+			"flashcard application", "play", "manage", "settings", "exit", "flip", "submit", "remove", "add",
+			"Whoops! There are No Cards to Study!", "Congratulations! Session Complete!!",
+			"theme", "language", "color", "blue", "red", "yellow", "green", "purple"};
+	
+	private transient String[] deutsch = {
+			"Flashcard Anwendung", "Begin Speil", "Verwalt Karten", "Einstellungen", "Verlass", "Umdrehen", "Antwort", "Löschen", "Hinzufüg", 
+			"Whoops! Es gibt keine Karten zu studieren!", "Glückwunsch! Sitzung abgeschlossen!",
+			"Theme", "Sprache", "Farbe", "Blau", "Rot", "Gelb", "Grun", "Lila"};
+	
+	private transient String[] magyar = {
+			"flashcard alkalmazás", "játék", "kezelése", "beállítások", "kijárat", "átfordítja", "beküldése", "töröl", "hozzá",
+			"Hoppá! Nincsenek kártyák tanulni!", "Gratula! Szekció befejeződött!",
+			"téma", "nyelv", "szín", "kék", "piros", "sárga", "zöld", "lila"};
+	
 	public Game() {
+		this.setLanguage("english"); 
+		initializeLanguages(); 
+		
 		Box b1 = new Box(0);
 		Box b2 = new Box(1);
 		Box b3 = new Box(2);
@@ -52,8 +79,44 @@ public class Game implements Serializable {
 		return this.boxset;
 	}
 	
+	public String getLangauge() {
+		return this.language;
+	}
+	
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	
+	public void getVocab(String lang) {
+		for (int i = 0; i <= this.vocabulary.size(); ++i) {
+			if (this.vocabulary.get(lang) != null) {
+				for (int j = 0; j < this.vocabulary.get(lang).length; ++j) {
+					System.out.println(this.vocabulary.get(lang)[j]);
+				}
+			}
+		}
+	}	
+	
 	public ArrayList<FlashCard> getCardset() {
 		return this.cardset;
+	}
+	
+	public void initializeLanguages() {
+		this.vocabulary.put("english", english);
+		this.vocabulary.put("deutsch", deutsch);
+		this.vocabulary.put("magyar", magyar);
+	}
+	
+	public String translate(String lang, String word) {
+		
+		String translated ="";
+		for (int i = 0; i < this.vocabulary.get("english").length; i++) {
+			if (this.vocabulary.get("english")[i].compareTo(word) == 0) {
+				translated = this.vocabulary.get(lang)[i];
+			}
+		}
+		
+		return translated.toUpperCase();
 	}
 	
 	public Box chooseBox(ArrayList<Box> boxset) {
@@ -140,6 +203,17 @@ public class Game implements Serializable {
 			}
 			System.out.println("Game Color: " + appColor);
 		}
+	}
+	
+	public void restartGame() {
+		for (int i = 0; i < this.cardset.size(); i++) {
+			this.boxset.get(0).addCard(this.cardset.get(i));
+		}
+		System.out.println(this.boxset.get(0).getSize());
+		for (int j = 0; j < this.cardset.size(); j++) {
+			this.boxset.get(2).removeCard(this.cardset.get(j));
+		}
+		System.out.println(this.boxset.get(2).getSize());
 	}
 	
 	public String toString() {
