@@ -3,10 +3,11 @@
 #TO-DO:
   * <del>Implement Serialization </del> <br /> 
   * Refine Aesthetic <br /> 
-      * Include a Background Image (optional) <br /> 
+      * <del>Include Better Background Pattern</del> <br /> 
       * Better Button Styles (optional)
-      * <del>Button Sounds<del>
-  * <del>Localization (German/English/Hungarian) <del> <br /> 
+      * <del>Button Click Sounds<del> 
+      * <del>Ambient Background Music </del>
+  * <del>Localization (German/English/Hungarian)<del> <br /> 
   * Refine Settings Screen
   * Incorporate Scroll Bar in Management Screen
   * Offer a Regular FlashCard Game Option <br /> 
