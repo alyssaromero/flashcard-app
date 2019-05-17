@@ -1,16 +1,14 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Dictionary;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -22,7 +20,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -37,18 +34,28 @@ public class GameViewer {
 	private static Box chosenBox;
 	private static FlashCard chosenCard; 
 	private static String chosenSide;
+	private static Background background;
 	
 	public static void drawMainScreen(Game thisgame) {
-		JFrame mainframe = new JFrame(thisgame.translate(thisgame.getLangauge(), "flashcard application"));
+		JFrame mainframe = new JFrame(thisgame.translate(thisgame.getLangauge(), "leitner flashcard application"));
 		mainframe.setSize(500, 500);
 		mainframe.setLocationRelativeTo(null);
 		mainframe.setLayout(null);
 		
-		JPanel background = new JPanel();
-		background.setBackground(thisgame.getAppColor());
-		background.setLayout(null);
-		background.setSize(500, 500);
-		background.setVisible(true);
+		Background background = new Background(thisgame.getAppColor());
+	
+		JPanel compbackground = new JPanel();
+		compbackground.setLayout(null);
+		compbackground.setSize(500, 500);
+		compbackground.setVisible(true);
+				
+		JLabel welcome = new JLabel(thisgame.translate(thisgame.getLangauge(), "leitner flashcard application"));
+		welcome.setSize(375, 50);
+		welcome.setLocation((int) 62.5, 50);
+		welcome.setLayout(new BorderLayout());
+		welcome.setHorizontalAlignment(JLabel.CENTER);
+		welcome.setVerticalAlignment(JLabel.CENTER);
+		welcome.setFont(new Font("Serif", Font.BOLD, 20));
 		
 		JButton playbutton = new JButton(thisgame.translate(thisgame.getLangauge(), "play"));
 		playbutton.setSize(200, 100);
@@ -99,6 +106,8 @@ public class GameViewer {
 			
 		});
 		
+		background.add(welcome);
+		welcome.setVisible(true);
 		background.add(manageButton);
 		manageButton.setVisible(true);
 		background.add(playbutton);
@@ -121,11 +130,13 @@ public static void drawGameScreen(Game thisgame) {
 		gameframe.setLocationRelativeTo(null);
 		gameframe.setLayout(null);
 		
-		JPanel background = new JPanel();
+		Background background = new Background(thisgame.getAppColor());
+		
+		/*JPanel background = new JPanel();
 		background.setBackground(thisgame.getAppColor());
 		background.setLayout(null);
 		background.setSize(500, 500);
-		background.setVisible(true);
+		background.setVisible(true);*/
 		
 		JPanel displaybackground = new JPanel();
 		displaybackground.setBackground(Color.WHITE);
@@ -150,8 +161,11 @@ public static void drawGameScreen(Game thisgame) {
 		
 		if (thisgame.getCardset().isEmpty()) {
 			display.setText(thisgame.translate(thisgame.getLangauge(), "Whoops! There are No Cards to Study!"));
+			display.setFont(new Font("Serif", Font.BOLD, 15));
+			userinput.setEditable(false);
 		}
 		else {
+			userinput.setEditable(true);
 			chosenBox = thisgame.chooseBox(thisgame.getBoxset());
 			while (chosenBox.isEmpty()) {
 				chosenBox = thisgame.chooseBox(thisgame.getBoxset());
@@ -159,6 +173,7 @@ public static void drawGameScreen(Game thisgame) {
 			chosenCard = chosenBox.chooseCard();
 			chosenSide = chosenCard.chooseSide();
 			display.setText(chosenSide);
+			display.setFont(new Font("Serif", Font.BOLD, 25));
 			display.setHorizontalTextPosition(SwingConstants.CENTER);
 			display.setVerticalTextPosition(SwingConstants.CENTER);
 		}
@@ -174,6 +189,7 @@ public static void drawGameScreen(Game thisgame) {
 				} catch (IOException | UnsupportedAudioFileException | LineUnavailableException e1) {
 					System.out.println(e1.getMessage());
 				}
+				thisgame.restartGame();
 				gameframe.dispose();
 				drawMainScreen(thisgame);
 			}
@@ -199,7 +215,10 @@ public static void drawGameScreen(Game thisgame) {
 					            	userinput.requestFocus();
 					                display.setBackground(Color.WHITE);
 					                if (thisgame.getBoxset().get(2).getSize() == thisgame.getCardset().size()) {
-					                	display.setText(thisgame.translate(thisgame.getLangauge(), "you win"));
+					                	System.out.println("Game Finished");
+					                	display.setText(thisgame.translate(thisgame.getLangauge(), "Congratulations! Session Complete!!"));
+					        			display.setFont(new Font("Serif", Font.BOLD, 15));
+					                	thisgame.restartGame();
 					                }
 					                else {
 					                	chosenBox = thisgame.chooseBox(thisgame.getBoxset());
@@ -209,10 +228,11 @@ public static void drawGameScreen(Game thisgame) {
 					                	chosenCard = chosenBox.chooseCard();
 					                	chosenSide = chosenCard.chooseSide();
 					                	display.setText(chosenSide);
+					        			display.setFont(new Font("Serif", Font.BOLD, 25));
 					                }
 					            }
 					        }, 
-					        1000 
+					        1500 
 					);
 				}
 				else {
@@ -224,7 +244,10 @@ public static void drawGameScreen(Game thisgame) {
 					            	userinput.requestFocus();
 					                display.setBackground(Color.WHITE);
 					                if (thisgame.getBoxset().get(2).getSize() == thisgame.getCardset().size()) {
-					                	display.setText(thisgame.translate(thisgame.getLangauge(), "you win"));
+					                	System.out.println("Game Finished");
+					                	display.setText(thisgame.translate(thisgame.getLangauge(), "Congratulations! Session Complete!!"));
+					        			display.setFont(new Font("Serif", Font.BOLD, 15));
+					                	thisgame.restartGame();
 					                }
 					                else {
 					                	chosenBox = thisgame.chooseBox(thisgame.getBoxset());
@@ -234,10 +257,11 @@ public static void drawGameScreen(Game thisgame) {
 					                	chosenCard = chosenBox.chooseCard();
 					                	chosenSide = chosenCard.chooseSide();
 					                	display.setText(chosenSide);
+					        			display.setFont(new Font("Serif", Font.BOLD, 25));
 					                }
 					            }
 					        }, 
-					        1000 
+					        1500 
 					);
 				}
 			}
@@ -271,6 +295,7 @@ public static void drawGameScreen(Game thisgame) {
 					                if (thisgame.getBoxset().get(2).getSize() == thisgame.getCardset().size()) {
 					                	System.out.println("Game Finished");
 					                	display.setText(thisgame.translate(thisgame.getLangauge(), "Congratulations! Session Complete!!"));
+					        			display.setFont(new Font("Serif", Font.BOLD, 15));
 					                	thisgame.restartGame();
 					                }
 					                else {
@@ -281,10 +306,11 @@ public static void drawGameScreen(Game thisgame) {
 					                	chosenCard = chosenBox.chooseCard();
 					                	chosenSide = chosenCard.chooseSide();
 					                	display.setText(chosenSide);
+					        			display.setFont(new Font("Serif", Font.BOLD, 25));
 					                }
 					            }
 					        }, 
-					        1000 
+					        1500 
 					);
 				}
 				else {
@@ -300,6 +326,7 @@ public static void drawGameScreen(Game thisgame) {
 					                if (thisgame.getBoxset().get(2).getSize() == thisgame.getCardset().size()) {
 					                	System.out.println("Game Finished");
 					                	display.setText(thisgame.translate(thisgame.getLangauge(), "Congratulations! Session Complete!!"));
+					        			display.setFont(new Font("Serif", Font.BOLD, 15));
 					                	thisgame.restartGame();
 					                }
 					                else {
@@ -310,6 +337,7 @@ public static void drawGameScreen(Game thisgame) {
 					                	chosenCard = chosenBox.chooseCard();
 					                	chosenSide = chosenCard.chooseSide();
 					                	display.setText(chosenSide);
+					        			display.setFont(new Font("Serif", Font.BOLD, 25));
 					                }
 					            }
 					        }, 
@@ -339,6 +367,7 @@ public static void drawGameScreen(Game thisgame) {
 						                if (thisgame.getBoxset().get(2).getSize() == thisgame.getCardset().size()) {
 						                	System.out.println("Game Finished");
 						                	display.setText(thisgame.translate(thisgame.getLangauge(), "Congratulations! Session Complete!!"));
+						        			display.setFont(new Font("Serif", Font.BOLD, 15));
 						                	thisgame.restartGame();
 						                }
 						                else {
@@ -349,10 +378,11 @@ public static void drawGameScreen(Game thisgame) {
 						                	chosenCard = chosenBox.chooseCard();
 						                	chosenSide = chosenCard.chooseSide();
 						                	display.setText(chosenSide);
+						        			display.setFont(new Font("Serif", Font.BOLD, 25));
 						                }
 						            }
 						        }, 
-						        1000 
+						        1500 
 						);
 					}
 					else {
@@ -367,6 +397,7 @@ public static void drawGameScreen(Game thisgame) {
 						                if (thisgame.getBoxset().get(2).getSize() == thisgame.getCardset().size()) {
 						                	System.out.println("Game Finished");
 						                	display.setText(thisgame.translate(thisgame.getLangauge(), "Congratulations! Session Complete!!"));
+						        			display.setFont(new Font("Serif", Font.BOLD, 15));
 						                	thisgame.restartGame();						                }
 						                else {
 						                	chosenBox = thisgame.chooseBox(thisgame.getBoxset());
@@ -376,10 +407,11 @@ public static void drawGameScreen(Game thisgame) {
 						                	chosenCard = chosenBox.chooseCard();
 						                	chosenSide = chosenCard.chooseSide();
 						                	display.setText(chosenSide);
+						        			display.setFont(new Font("Serif", Font.BOLD, 25));
 						                }
 						            }
 						        }, 
-						        1000 
+						        1500 
 						);
 					};
 				}
@@ -412,12 +444,15 @@ public static void drawGameScreen(Game thisgame) {
 		settingsmenu.setLocationRelativeTo(null);
 		settingsmenu.setLayout(null);
 		
-		JPanel background = new JPanel();
-		background.setSize(500, 500);
-		background.setLayout(null);
-		background.setLocation(0, 0);
-		background.setBackground(thisgame.getAppColor());
-		settingsmenu.add(background);
+		Background background = new Background(thisgame.getAppColor());
+		
+		JLabel SettingsTitle = new JLabel(thisgame.translate(thisgame.getLangauge(), "settings"));
+		SettingsTitle.setSize(375, 50);
+		SettingsTitle.setLocation((int) 62.5, 10);
+		SettingsTitle.setLayout(new BorderLayout());
+		SettingsTitle.setHorizontalAlignment(JLabel.CENTER);
+		SettingsTitle.setVerticalAlignment(JLabel.CENTER);
+		SettingsTitle.setFont(new Font("Serif", Font.BOLD, 25));
 		
 		JButton exitbutton = new JButton(thisgame.translate(thisgame.getLangauge(), "exit"));
 		exitbutton.setSize(100, 50);
@@ -478,7 +513,8 @@ public static void drawGameScreen(Game thisgame) {
 		String[] colorchoices = { 
 				thisgame.translate(thisgame.getLangauge(), "color"), thisgame.translate(thisgame.getLangauge(), "blue"), 
 				thisgame.translate(thisgame.getLangauge(), "red"), thisgame.translate(thisgame.getLangauge(), "yellow"), 
-				thisgame.translate(thisgame.getLangauge(), "green"), thisgame.translate(thisgame.getLangauge(), "purple")
+				thisgame.translate(thisgame.getLangauge(), "green"), thisgame.translate(thisgame.getLangauge(), "purple"), 
+				thisgame.translate(thisgame.getLangauge(), "gray")
 				};
 		
 		JComboBox<String> colors = new JComboBox<String>(colorchoices);
@@ -487,29 +523,49 @@ public static void drawGameScreen(Game thisgame) {
 		colors.getSelectedIndex();
 		colors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (colors.getSelectedIndex() == 2) {
-					thisgame.setAppColor(new Color (255, 153, 153));
-					background.setBackground(thisgame.getAppColor());
-				}
-				else if (colors.getSelectedIndex() == 1) {
+				
+				//Settings Background Color to Blue
+				if (colors.getSelectedIndex() == 1) {
 					thisgame.setAppColor(new Color(153, 204, 255));
-					background.setBackground(thisgame.getAppColor());
+					settingsmenu.dispose();
+					drawSettingsScreen(thisgame);
 				}
+				//Settings Background Color to Red
+				else if (colors.getSelectedIndex() == 2) {
+					thisgame.setAppColor(new Color (255, 153, 153));
+					settingsmenu.dispose();
+					drawSettingsScreen(thisgame);
+				}
+				//Setting Background Color to Yellow
 				else if (colors.getSelectedIndex() == 3) {
 					thisgame.setAppColor(new Color(255, 255, 153));
-					background.setBackground(thisgame.getAppColor());
+					settingsmenu.dispose();
+					drawSettingsScreen(thisgame);
 				}
+				//Settings Background Color to Green
 				else if (colors.getSelectedIndex() == 4){
 					thisgame.setAppColor(new Color(204, 255, 153));	
-					background.setBackground(thisgame.getAppColor());
+					settingsmenu.dispose();
+					drawSettingsScreen(thisgame);
 				}
+				//Settings Backgroun Color to Purple
 				else if (colors.getSelectedIndex() == 5) {
 					thisgame.setAppColor(new Color(204, 153, 255));	
-					background.setBackground(thisgame.getAppColor());
+					settingsmenu.dispose();
+					drawSettingsScreen(thisgame);
+				}
+				//Setting Background Color to Gray
+				else if (colors.getSelectedIndex() == 6) {
+					thisgame.setAppColor(new Color(220, 220, 220));
+					settingsmenu.dispose();
+					drawSettingsScreen(thisgame);
 				}
 			}			
 		});
 		
+		
+		background.add(SettingsTitle);
+		SettingsTitle.setVisible(true);
 		background.add(colors);
 		colors.setVisible(true);
 		background.add(languages);
@@ -532,11 +588,15 @@ public static void drawGameScreen(Game thisgame) {
 		manframe.setLayout(null);
 		manframe.setLocationRelativeTo(null);
 		
-		JPanel panel = new JPanel();
-		panel.setSize(500, 500);
-		panel.setLayout(null);
-		panel.setLocation(0, 0);
-		panel.setBackground(thisgame.getAppColor());
+		Background background = new Background(thisgame.getAppColor());
+		
+		JLabel ManagementTitle = new JLabel(thisgame.translate(thisgame.getLangauge(), "manage cards"));
+		ManagementTitle.setSize(375, 50);
+		ManagementTitle.setLocation((int) 62.5, 10);
+		ManagementTitle.setLayout(new BorderLayout());
+		ManagementTitle.setHorizontalAlignment(JLabel.CENTER);
+		ManagementTitle.setVerticalAlignment(JLabel.CENTER);
+		ManagementTitle.setFont(new Font("Serif", Font.BOLD, 25));
 		
 		String[] colHeadings = {thisgame.translate(thisgame.getLangauge(), "front"), thisgame.translate(thisgame.getLangauge(), "back")};
 		
@@ -701,21 +761,23 @@ public static void drawGameScreen(Game thisgame) {
 			
 		});
 		
-		//jsp.setVisible(true);
-		panel.add(table);
+		
+		background.add(ManagementTitle);
+		ManagementTitle.setVisible(true);
+		background.add(table);
 		table.setVisible(true);
-		panel.add(removebutton);
+		background.add(removebutton);
 		removebutton.setVisible(true);
-		panel.add(addbutton);
+		background.add(addbutton);
 		addbutton.setVisible(true);
-		panel.add(exitbutton);
+		background.add(exitbutton);
 		exitbutton.setVisible(true);
-		panel.add(frontfield);
+		background.add(frontfield);
 		frontfield.setVisible(true);
-		panel.add(backfield);
+		background.add(backfield);
 		backfield.setVisible(true);
 		
-		manframe.add(panel);
+		manframe.add(background);
 		manframe.setResizable(false);
 		manframe.setVisible(true);
 		frontfield.requestFocusInWindow();
@@ -743,6 +805,18 @@ public static void drawGameScreen(Game thisgame) {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	public static void playBackgroundMusic() throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+		String filename = "background_clip1.wav";
 		
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(filename).getAbsoluteFile());
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioIn);
+			clip.start();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }

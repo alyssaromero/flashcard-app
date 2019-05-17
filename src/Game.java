@@ -1,28 +1,8 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 
 /* 
  * @author Alyssa Romero 2019 
@@ -39,21 +19,20 @@ public class Game implements Serializable {
 	private HashMap<String, String[]> vocabulary = new HashMap<String, String[]>();
 	private String language;
 	
-	//VOCABULARY FOR VARIOUS LANGUAGES//
 	private transient String[] english = {
-			"flashcard application", "play", "manage", "settings", "exit", "flip", "submit", "remove", "add",
+			"leitner flashcard application", "play", "manage", "manage cards", "settings", "exit", "flip", "submit", "remove", "add",
 			"Whoops! There are No Cards to Study!", "Congratulations! Session Complete!!",
-			"theme", "language", "color", "blue", "red", "yellow", "green", "purple"};
+			"theme", "language", "color", "blue", "red", "yellow", "green", "purple", "gray"};
 	
 	private transient String[] deutsch = {
-			"Flashcard Anwendung", "Begin Speil", "Verwalt Karten", "Einstellungen", "Verlass", "Umdrehen", "Antwort", "Löschen", "Hinzufüg", 
+			"Leitner Flashcard Anwendung", "Begin Speil", "Verwalt Karten", "Verwalt Karten", "Einstellungen", "Verlass", "Umdrehen", "Antwort", "Löschen", "Hinzufüg", 
 			"Whoops! Es gibt keine Karten zu studieren!", "Glückwunsch! Sitzung abgeschlossen!",
-			"Theme", "Sprache", "Farbe", "Blau", "Rot", "Gelb", "Grun", "Lila"};
+			"Theme", "Sprache", "Farbe", "Blau", "Rot", "Gelb", "Grun", "Lila", "Grau"};
 	
 	private transient String[] magyar = {
-			"flashcard alkalmazás", "játék", "kezelése", "beállítások", "kijárat", "átfordítja", "beküldése", "töröl", "hozzá",
+			"leitner flashcard alkalmazás", "játék", "kezelése", "kártyák kezelése", "beállítások", "kijárat", "átfordítja", "beküldése", "töröl", "hozzá",
 			"Hoppá! Nincsenek kártyák tanulni!", "Gratula! Szekció befejeződött!",
-			"téma", "nyelv", "szín", "kék", "piros", "sárga", "zöld", "lila"};
+			"téma", "nyelv", "szín", "kék", "piros", "sárga", "zöld", "lila", "szürke"};
 	
 	public Game() {
 		this.setLanguage("english"); 

@@ -1,9 +1,17 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.UIManager;
 
 /* 
  * @author Alyssa Romero 2019 
@@ -48,5 +56,10 @@ public class GameTester {
 		
 		GameViewer viewer = new GameViewer();
 		viewer.drawMainScreen(game);
+		try {
+			viewer.playBackgroundMusic();
+		} catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
