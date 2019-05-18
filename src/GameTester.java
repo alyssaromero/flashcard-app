@@ -30,6 +30,12 @@ public class GameTester {
 		String filename = "game.ser";
 
 		try {
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
 			game = (Game)ois.readObject();
 			System.out.println("File Already Exists...Loading File");
@@ -57,7 +63,7 @@ public class GameTester {
 		GameViewer viewer = new GameViewer();
 		viewer.drawMainScreen(game);
 		try {
-			viewer.playBackgroundMusic();
+			viewer.playBackgroundMusic(game);
 		} catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
 			System.out.println(e.getMessage());
 		}

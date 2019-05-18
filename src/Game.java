@@ -14,29 +14,35 @@ public class Game implements Serializable {
 	
 	private ArrayList<Box> boxset = new ArrayList<Box>();  
 	private ArrayList<FlashCard> cardset = new ArrayList<FlashCard>(); 
-	private Color appColor = new Color(153, 204, 255); 
+	private Color appColor = new Color(222, 243, 224); 
+	private String musicfile;
+	private String backgroundpattern;
 	
 	private HashMap<String, String[]> vocabulary = new HashMap<String, String[]>();
 	private String language;
 	
 	private transient String[] english = {
 			"leitner flashcard application", "play", "manage", "manage cards", "settings", "exit", "flip", "submit", "remove", "add",
-			"Whoops! There are No Cards to Study!", "Congratulations! Session Complete!!",
-			"theme", "language", "color", "blue", "red", "yellow", "green", "purple", "gray"};
+			"Whoops! There are No Cards to Study!", "Congratulations! Session Complete!!", "music settings", "color settings", "pattern settings",
+			"mute music", "sound", "theme", "language options", "color", "blue", "red", "yellow", "green", "purple", "gray"};
 	
 	private transient String[] deutsch = {
 			"Leitner Flashcard Anwendung", "Begin Speil", "Verwalt Karten", "Verwalt Karten", "Einstellungen", "Verlass", "Umdrehen", "Antwort", "Löschen", "Hinzufüg", 
-			"Whoops! Es gibt keine Karten zu studieren!", "Glückwunsch! Sitzung abgeschlossen!",
-			"Theme", "Sprache", "Farbe", "Blau", "Rot", "Gelb", "Grun", "Lila", "Grau"};
+			"Whoops! Es gibt keine Karten zu studieren!", "Glückwunsch! Sitzung abgeschlossen!", "Musik", "Farben", "Themen",
+			"Musik ausschalten", "Tonspur", "Theme", "Sprache", "Farbe", "Blau", "Rot", "Gelb", "Grun", "Lila", "Grau"};
 	
 	private transient String[] magyar = {
 			"leitner flashcard alkalmazás", "játék", "kezelése", "kártyák kezelése", "beállítások", "kijárat", "átfordítja", "beküldése", "töröl", "hozzá",
-			"Hoppá! Nincsenek kártyák tanulni!", "Gratula! Szekció befejeződött!",
-			"téma", "nyelv", "szín", "kék", "piros", "sárga", "zöld", "lila", "szürke"};
+			"Hoppá! Nincsenek kártyák tanulni!", "Gratula! Szekció befejeződött!", "zene", "színek", "témák",
+			"némítsa a zenét","hangsávot","téma", "nyelv", "szín", "kék", "piros", "sárga", "zöld", "lila", "szürke"};
 	
 	public Game() {
 		this.setLanguage("english"); 
 		initializeLanguages(); 
+		
+		this.musicfile = "background_clip1.wav";
+		this.backgroundpattern = "pattern1";
+		System.out.println(this.getBackgroundPattern());
 		
 		Box b1 = new Box(0);
 		Box b2 = new Box(1);
@@ -44,6 +50,22 @@ public class Game implements Serializable {
 		boxset.add(b1);
 		boxset.add(b2);
 		boxset.add(b3);
+	}
+	
+	public String getBackgroundPattern() {
+		return this.backgroundpattern;
+	}
+	
+	public void setBackgroundPattern(String background) {
+		this.backgroundpattern = background;
+	}
+	
+	public String getMusicFile() {
+		return this.musicfile;
+	}
+	
+	public void setMusicFile(String filename) {
+		this.musicfile = filename;
 	}
 	
 	public Color getAppColor() {
