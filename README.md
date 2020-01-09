@@ -35,4 +35,3 @@ Other than the game logic required to implement the Leitner system, the applicat
 
 ## Author
 _Alyssa Romero_ </br>
-_19 May 2019_ </br>
